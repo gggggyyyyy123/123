@@ -1,0 +1,49 @@
+import pygame
+import sys
+
+# 初始化 Pygame
+pygame.init()
+
+# 設定遊戲視窗大小
+width, height = 800, 600
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("雙人遊戲")
+
+# 設定角色初始位置
+player1_x, player1_y = 50, height - 50
+player2_x, player2_y = width - 100, height - 50
+
+# 設定角色速度
+player_speed = 5
+
+# 遊戲主迴圈
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+    # 獲取按鍵狀態
+    keys = pygame.key.get_pressed()
+
+    # 玩家1移動
+    if keys[pygame.K_LEFT] and player1_x > 0:
+        player1_x -= player_speed
+    if keys[pygame.K_RIGHT] and player1_x < width - 50:
+        player1_x += player_speed
+
+    # 玩家2移動
+    if keys[pygame.K_a] and player2_x > 0:
+        player2_x -= player_speed
+    if keys[pygame.K_d] and player2_x < width - 50:
+        player2_x += player_speed
+
+    # 更新視窗
+    screen.fill((255, 255, 255))
+    pygame.draw.rect(screen, (255, 0, 0), (player1_x, player1_y, 50, 50))  # 玩家1為紅色
+    pygame.draw.rect(screen, (0, 0, 255), (player2_x, player2_y, 50, 50))  # 玩家2為藍色
+
+    pygame.display.flip()
+
+    # 控制遊戲更新速率
+    pygame.time.Clock().tick(30)
